@@ -1,23 +1,25 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Test} from "forge-std/Test.sol";
-import {Assignment7} from "../src/Assignment7.sol";
+import "forge-std/Test.sol"; // Assuming you're using Foundry for testing
+import "../src/Assignment7.sol"; // Adjust the path to your contract
 
 contract Assignment7Test is Test {
-    Assignment7 assignment;
+    Assignment7 public assignment;
 
     function setUp() public {
-        // pass your token name and symbol here
-        assignment = new Assignment7();
+        // Deploy the contract with the required arguments
+        assignment = new Assignment7("MyToken", "MTK");
     }
 
-    function testMintAndTransfer() public {
-        // Mint tokens to the test contract
-        assignment.mint(address(this), 1000 * 10**18);
+    function testMint() public {
+        address recipient = address(0x123); // Example address
+        uint256 amount = 1000;
 
-        // Check balance of the test contract
-        uint256 balance = assignment.balanceOf(address(this));
-        assertEq(balance, 1000 * 10**18, "Balance should be 1000 tokens");
+        // Mint tokens
+        assignment.mint(recipient, amount);
+
+        // Check the balance of the recipient
+        assertEq(assignment.balanceOf(recipient), amount);
     }
 }
